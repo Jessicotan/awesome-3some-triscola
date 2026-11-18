@@ -17,4 +17,45 @@ A web-based Briscola made by three deeply mentally unstable and unemployed  ♥ 
 
 - so to start should what functions should we write first? 
 
+## Prerequisites
 
+- [Bun](https://bun.com) 1.4 or newer (it is both the runtime and package manager).
+
+## Install and configure
+
+```bash
+bun install
+cp apps/server/.env.example apps/server/.env
+cp apps/web/.env.example apps/web/.env
+```
+
+Set `BETTER_AUTH_SECRET` in `apps/server/.env` to a unique high-entropy value of at least 32 characters. A safe way to create it is:
+
+```bash
+openssl rand -base64 48
+```
+
+## Database
+
+```bash
+bun run auth:schema
+bun run db:generate
+bun run db:migrate
+```
+
+## Run
+
+```bash
+bun run dev
+bun run dev:web
+bun run dev:server
+```
+
+## Verification
+
+```bash
+bun run lint
+bun run lint:fix
+bun run check
+bun run build
+```
