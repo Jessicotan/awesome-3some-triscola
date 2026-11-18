@@ -1,0 +1,36 @@
+{
+	"name": "@my-game/server",
+	"type": "module",
+	"version": "0.1.0",
+	"private": true,
+	"exports": {
+		".": "./src/app.ts"
+	},
+	"scripts": {
+		"dev": "bun --watch src/index.ts",
+		"start": "bun src/index.ts",
+		"check": "tsc --noEmit",
+		"lint": "eslint src drizzle.config.ts",
+		"lint:fix": "eslint src drizzle.config.ts --fix",
+		"build": "bun build ./src/index.ts --outdir ./dist --target bun",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "bun src/db/migrate.ts",
+		"auth:schema": "bunx --bun auth generate --config ./src/auth/index.ts --output ./src/db/schema.ts --yes",
+		"test": "bun test"
+	},
+	"dependencies": {
+		"@better-auth/drizzle-adapter": "^1.4.12",
+		"@elysiajs/cors": "^1.4.1",
+		"@t3-oss/env-core": "^0.13.11",
+		"better-auth": "^1.4.12",
+		"drizzle-orm": "^0.44.7",
+		"elysia": "^1.4.1",
+		"zod": "^4.3.6"
+	},
+	"devDependencies": {
+		"auth": "^1.7.25",
+		"bun-types": "^1.4.4",
+		"drizzle-kit": "^0.31.4",
+		"typescript": "^5.9.3"
+	}
+}
