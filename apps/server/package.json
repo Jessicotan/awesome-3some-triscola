@@ -15,7 +15,6 @@
 		"build": "bun build ./src/index.ts --outdir ./dist --target bun",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "bun src/db/migrate.ts",
-		"auth:schema": "bunx --bun auth generate --config ./src/auth/index.ts --output ./src/db/schema.ts --yes",
 		"test": "bun test"
 	},
 	"dependencies": {
