@@ -1,25 +1,25 @@
 {
-  "name": "my-game",
-  "private": true,
-  "type": "module",
-  "workspaces": ["apps/*"],
-  "scripts": {
-    "dev": "bun --cwd apps/server dev & bun --cwd apps/web dev",
-    "dev:web": "bun --cwd apps/web dev",
-    "dev:server": "bun --cwd apps/server dev",
-    "check": "bun run --filter '*' check",
-    "lint": "eslint apps eslint.config.mjs",
-    "lint:fix": "eslint apps eslint.config.mjs --fix",
-    "build": "bun run --filter '*' build",
-    "db:generate": "bun --cwd apps/server db:generate",
-    "db:migrate": "bun --cwd apps/server db:migrate",
-    "auth:schema": "bun --cwd apps/server auth:schema",
-    "test": "bun --cwd apps/server test"
-  },
-  "devDependencies": {
-    "@antfu/eslint-config": "^10.0.0",
-    "eslint": "^10.0.0",
-    "eslint-plugin-svelte": "^3.0.0",
-    "svelte-eslint-parser": "^1.10.0"
-  }
+	"name": "my-game",
+	"type": "module",
+	"private": true,
+	"workspaces": ["apps/*"],
+	"scripts": {
+		"dev": "bun --cwd apps/server dev & bun --cwd apps/web dev",
+		"dev:web": "bun --cwd apps/web dev",
+		"dev:server": "bun --cwd apps/server dev",
+		"check": "bun run --filter '*' check",
+		"lint": "eslint apps eslint.config.mjs",
+		"lint:fix": "eslint apps eslint.config.mjs --fix",
+		"build": "bun run --filter '*' build",
+		"db:generate": "bun --cwd apps/server db:generate",
+		"db:migrate": "bun --cwd apps/server db:migrate",
+		"auth:schema": "bun --cwd apps/server auth:schema",
+		"test": "bun --cwd apps/server test"
+	},
+	"devDependencies": {
+		"@antfu/eslint-config": "^10.0.0",
+		"eslint": "^10.0.0",
+		"eslint-plugin-svelte": "^3.0.0",
+		"svelte-eslint-parser": "^1.10.0"
+	}
 }
