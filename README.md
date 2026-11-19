@@ -1,4 +1,5 @@
 # awesome-3some-triscola
+
 A web-based Briscola made by three deeply mentally unstable and unemployed  ♥ psychopaths ♥
 
 ## this is what we want to make ❤️
@@ -15,7 +16,7 @@ A web-based Briscola made by three deeply mentally unstable and unemployed  ♥ 
 
     `After i clicked 'play with friends', web page ask me if i want to create a room or to join a room. Because i have played with Mario before, so the web remember the room we have created, which is called 'soy-milk'. So i just clicked the room, and i joined it. I sent a message to my frined so my friend also joined it. Then we started to play`
 
-- so to start should what functions should we write first? 
+- so to start should what functions should we write first?
 
 ## Prerequisites
 
