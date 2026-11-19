@@ -12,3 +12,4 @@ dist/
 *.sqlite-shm
 *.sqlite-wal
 coverage/
+*.dbdiagram
