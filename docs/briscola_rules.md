@@ -44,7 +44,7 @@
 1. Each player plays a card in turn, until all players have played one card.
 2. The winner of that trick is determined as follows:
    - If any briscola has been played, the highest valued briscola wins.
-   - If no briscole have been played, the highest card wins.
+   - If no briscole have been played, the highest value of the card that the first player played wins.
 
 ### 3.2 Collecting Cards
 
