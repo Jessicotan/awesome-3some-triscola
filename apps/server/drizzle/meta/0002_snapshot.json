@@ -1,0 +1,1165 @@
+{
+  "id": "c689b360-ca20-4fd9-bebe-a6d6824e85af",
+  "prevId": "b458cc99-5625-4d0b-b518-3a259e385aa9",
+  "version": "6",
+  "dialect": "sqlite",
+  "tables": {
+    "account": {
+      "name": "account",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "account_id": {
+          "name": "account_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "provider_id": {
+          "name": "provider_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "access_token": {
+          "name": "access_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "refresh_token": {
+          "name": "refresh_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id_token": {
+          "name": "id_token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "access_token_expires_at": {
+          "name": "access_token_expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "refresh_token_expires_at": {
+          "name": "refresh_token_expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "scope": {
+          "name": "scope",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "account_userId_idx": {
+          "name": "account_userId_idx",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "account_user_id_user_id_fk": {
+          "name": "account_user_id_user_id_fk",
+          "tableFrom": "account",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "user",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "session": {
+      "name": "session",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "token": {
+          "name": "token",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "ip_address": {
+          "name": "ip_address",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_agent": {
+          "name": "user_agent",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "session_token_unique": {
+          "name": "session_token_unique",
+          "columns": [
+            "token"
+          ],
+          "isUnique": true
+        },
+        "session_userId_idx": {
+          "name": "session_userId_idx",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "session_user_id_user_id_fk": {
+          "name": "session_user_id_user_id_fk",
+          "tableFrom": "session",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "user",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "user": {
+      "name": "user",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "email_verified": {
+          "name": "email_verified",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": false
+        },
+        "image": {
+          "name": "image",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "user_email_unique": {
+          "name": "user_email_unique",
+          "columns": [
+            "email"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "verification": {
+      "name": "verification",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "identifier": {
+          "name": "identifier",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "value": {
+          "name": "value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "verification_identifier_idx": {
+          "name": "verification_identifier_idx",
+          "columns": [
+            "identifier"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "card": {
+      "name": "card",
+      "columns": {
+        "suit_code": {
+          "name": "suit_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rank_code": {
+          "name": "rank_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "card_suit_code_suit_code_fk": {
+          "name": "card_suit_code_suit_code_fk",
+          "tableFrom": "card",
+          "columnsFrom": [
+            "suit_code"
+          ],
+          "tableTo": "suit",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "card_rank_code_card_rank_code_fk": {
+          "name": "card_rank_code_card_rank_code_fk",
+          "tableFrom": "card",
+          "columnsFrom": [
+            "rank_code"
+          ],
+          "tableTo": "card_rank",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "card_suit_code_rank_code_pk": {
+          "columns": [
+            "suit_code",
+            "rank_code"
+          ],
+          "name": "card_suit_code_rank_code_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "card_rank": {
+      "name": "card_rank",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "strength": {
+          "name": "strength",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "points": {
+          "name": "points",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "card_rank_strength_unique": {
+          "name": "card_rank_strength_unique",
+          "columns": [
+            "strength"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "card_rank_strength_check": {
+          "name": "card_rank_strength_check",
+          "value": "\"card_rank\".\"strength\" between 1 and 10"
+        },
+        "card_rank_points_check": {
+          "name": "card_rank_points_check",
+          "value": "\"card_rank\".\"points\" in (0, 2, 3, 4, 10, 11)"
+        }
+      }
+    },
+    "suit": {
+      "name": "suit",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "room": {
+      "name": "room",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status_code": {
+          "name": "status_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'waiting'"
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "room_status_code_room_status_code_fk": {
+          "name": "room_status_code_room_status_code_fk",
+          "tableFrom": "room",
+          "columnsFrom": [
+            "status_code"
+          ],
+          "tableTo": "room_status",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "room_created_by_user_id_fk": {
+          "name": "room_created_by_user_id_fk",
+          "tableFrom": "room",
+          "columnsFrom": [
+            "created_by"
+          ],
+          "tableTo": "user",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "room_name_check": {
+          "name": "room_name_check",
+          "value": "length(trim(\"room\".\"name\")) between 1 and 100"
+        }
+      }
+    },
+    "room_member": {
+      "name": "room_member",
+      "columns": {
+        "room_id": {
+          "name": "room_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "joined_at": {
+          "name": "joined_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "room_member_user_id_idx": {
+          "name": "room_member_user_id_idx",
+          "columns": [
+            "user_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "room_member_room_id_room_id_fk": {
+          "name": "room_member_room_id_room_id_fk",
+          "tableFrom": "room_member",
+          "columnsFrom": [
+            "room_id"
+          ],
+          "tableTo": "room",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "room_member_user_id_user_id_fk": {
+          "name": "room_member_user_id_user_id_fk",
+          "tableFrom": "room_member",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "user",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "room_member_room_id_user_id_pk": {
+          "columns": [
+            "room_id",
+            "user_id"
+          ],
+          "name": "room_member_room_id_user_id_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "room_status": {
+      "name": "room_status",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "game": {
+      "name": "game",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "room_id": {
+          "name": "room_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status_code": {
+          "name": "status_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'setup'"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "started_at": {
+          "name": "started_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "ended_at": {
+          "name": "ended_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "game_room_created_at_idx": {
+          "name": "game_room_created_at_idx",
+          "columns": [
+            "room_id",
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "game_one_active_per_room_idx": {
+          "name": "game_one_active_per_room_idx",
+          "columns": [
+            "room_id"
+          ],
+          "where": "\"game\".\"status_code\" in ('setup', 'playing')",
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "game_room_id_room_id_fk": {
+          "name": "game_room_id_room_id_fk",
+          "tableFrom": "game",
+          "columnsFrom": [
+            "room_id"
+          ],
+          "tableTo": "room",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "game_status_code_game_status_code_fk": {
+          "name": "game_status_code_game_status_code_fk",
+          "tableFrom": "game",
+          "columnsFrom": [
+            "status_code"
+          ],
+          "tableTo": "game_status",
+          "columnsTo": [
+            "code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "game_start_after_creation": {
+          "name": "game_start_after_creation",
+          "value": "\"game\".\"started_at\" is null or \"game\".\"started_at\" >= \"game\".\"created_at\""
+        },
+        "game_end_after_start": {
+          "name": "game_end_after_start",
+          "value": "\"game\".\"ended_at\" is null or (\"game\".\"ended_at\" >= \"game\".\"created_at\" and (\"game\".\"started_at\" is null or \"game\".\"ended_at\" >= \"game\".\"started_at\"))"
+        },
+        "game_status_times": {
+          "name": "game_status_times",
+          "value": "(\"game\".\"status_code\" = 'setup' and \"game\".\"started_at\" is null and \"game\".\"ended_at\" is null) or (\"game\".\"status_code\" = 'playing' and \"game\".\"started_at\" is not null and \"game\".\"ended_at\" is null) or (\"game\".\"status_code\" = 'finished' and \"game\".\"started_at\" is not null and \"game\".\"ended_at\" is not null) or (\"game\".\"status_code\" = 'abandoned' and \"game\".\"ended_at\" is not null)"
+        }
+      }
+    },
+    "game_card": {
+      "name": "game_card",
+      "columns": {
+        "game_id": {
+          "name": "game_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "suit_code": {
+          "name": "suit_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rank_code": {
+          "name": "rank_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "deck_position": {
+          "name": "deck_position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "dealt_to_seat": {
+          "name": "dealt_to_seat",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "game_card_position_idx": {
+          "name": "game_card_position_idx",
+          "columns": [
+            "game_id",
+            "deck_position"
+          ],
+          "isUnique": true
+        },
+        "game_card_owner_idx": {
+          "name": "game_card_owner_idx",
+          "columns": [
+            "game_id",
+            "suit_code",
+            "rank_code",
+            "dealt_to_seat"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "game_card_game_id_game_id_fk": {
+          "name": "game_card_game_id_game_id_fk",
+          "tableFrom": "game_card",
+          "columnsFrom": [
+            "game_id"
+          ],
+          "tableTo": "game",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "game_card_suit_code_rank_code_card_suit_code_rank_code_fk": {
+          "name": "game_card_suit_code_rank_code_card_suit_code_rank_code_fk",
+          "tableFrom": "game_card",
+          "columnsFrom": [
+            "suit_code",
+            "rank_code"
+          ],
+          "tableTo": "card",
+          "columnsTo": [
+            "suit_code",
+            "rank_code"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "game_card_game_id_dealt_to_seat_game_player_game_id_seat_fk": {
+          "name": "game_card_game_id_dealt_to_seat_game_player_game_id_seat_fk",
+          "tableFrom": "game_card",
+          "columnsFrom": [
+            "game_id",
+            "dealt_to_seat"
+          ],
+          "tableTo": "game_player",
+          "columnsTo": [
+            "game_id",
+            "seat"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "game_card_game_id_suit_code_rank_code_pk": {
+          "columns": [
+            "game_id",
+            "suit_code",
+            "rank_code"
+          ],
+          "name": "game_card_game_id_suit_code_rank_code_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "game_card_position_check": {
+          "name": "game_card_position_check",
+          "value": "\"game_card\".\"deck_position\" between 1 and 40"
+        },
+        "game_card_seat_check": {
+          "name": "game_card_seat_check",
+          "value": "\"game_card\".\"dealt_to_seat\" between 1 and 4"
+        }
+      }
+    },
+    "game_player": {
+      "name": "game_player",
+      "columns": {
+        "game_id": {
+          "name": "game_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "seat": {
+          "name": "seat",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "game_player_user_idx": {
+          "name": "game_player_user_idx",
+          "columns": [
+            "game_id",
+            "user_id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "game_player_game_id_game_id_fk": {
+          "name": "game_player_game_id_game_id_fk",
+          "tableFrom": "game_player",
+          "columnsFrom": [
+            "game_id"
+          ],
+          "tableTo": "game",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "game_player_user_id_user_id_fk": {
+          "name": "game_player_user_id_user_id_fk",
+          "tableFrom": "game_player",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "tableTo": "user",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "game_player_game_id_seat_pk": {
+          "columns": [
+            "game_id",
+            "seat"
+          ],
+          "name": "game_player_game_id_seat_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "game_player_seat_check": {
+          "name": "game_player_seat_check",
+          "value": "\"game_player\".\"seat\" between 1 and 4"
+        }
+      }
+    },
+    "game_status": {
+      "name": "game_status",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "play": {
+      "name": "play",
+      "columns": {
+        "game_id": {
+          "name": "game_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "trick_number": {
+          "name": "trick_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "play_order": {
+          "name": "play_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "seat": {
+          "name": "seat",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "suit_code": {
+          "name": "suit_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "rank_code": {
+          "name": "rank_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "play_trick_seat_idx": {
+          "name": "play_trick_seat_idx",
+          "columns": [
+            "game_id",
+            "trick_number",
+            "seat"
+          ],
+          "isUnique": true
+        },
+        "play_card_idx": {
+          "name": "play_card_idx",
+          "columns": [
+            "game_id",
+            "suit_code",
+            "rank_code"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "play_game_id_trick_number_trick_game_id_number_fk": {
+          "name": "play_game_id_trick_number_trick_game_id_number_fk",
+          "tableFrom": "play",
+          "columnsFrom": [
+            "game_id",
+            "trick_number"
+          ],
+          "tableTo": "trick",
+          "columnsTo": [
+            "game_id",
+            "number"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        },
+        "play_game_id_suit_code_rank_code_seat_game_card_game_id_suit_code_rank_code_dealt_to_seat_fk": {
+          "name": "play_game_id_suit_code_rank_code_seat_game_card_game_id_suit_code_rank_code_dealt_to_seat_fk",
+          "tableFrom": "play",
+          "columnsFrom": [
+            "game_id",
+            "suit_code",
+            "rank_code",
+            "seat"
+          ],
+          "tableTo": "game_card",
+          "columnsTo": [
+            "game_id",
+            "suit_code",
+            "rank_code",
+            "dealt_to_seat"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "play_game_id_trick_number_play_order_pk": {
+          "columns": [
+            "game_id",
+            "trick_number",
+            "play_order"
+          ],
+          "name": "play_game_id_trick_number_play_order_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "play_order_check": {
+          "name": "play_order_check",
+          "value": "\"play\".\"play_order\" between 1 and 4"
+        },
+        "play_seat_check": {
+          "name": "play_seat_check",
+          "value": "\"play\".\"seat\" between 1 and 4"
+        }
+      }
+    },
+    "trick": {
+      "name": "trick",
+      "columns": {
+        "game_id": {
+          "name": "game_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "number": {
+          "name": "number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "trick_game_id_game_id_fk": {
+          "name": "trick_game_id_game_id_fk",
+          "tableFrom": "trick",
+          "columnsFrom": [
+            "game_id"
+          ],
+          "tableTo": "game",
+          "columnsTo": [
+            "id"
+          ],
+          "onUpdate": "no action",
+          "onDelete": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "trick_game_id_number_pk": {
+          "columns": [
+            "game_id",
+            "number"
+          ],
+          "name": "trick_game_id_number_pk"
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraints": {
+        "trick_number_check": {
+          "name": "trick_number_check",
+          "value": "\"trick\".\"number\" between 1 and 20"
+        }
+      }
+    }
+  },
+  "views": {},
+  "enums": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  },
+  "internal": {
+    "indexes": {}
+  }
+}

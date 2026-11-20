@@ -1,0 +1,199 @@
+Project briscola {
+  database_type: 'SQLite'
+  Note: 'Scores, winners, hands and turns are derived from the deal and plays. See table notes for rules requiring transactional enforcement.'
+}
+
+Table user {
+  id text [pk, not null]
+  Note: 'Existing Better Auth user table; only the referenced key is shown.'
+}
+
+Table room_status {
+  code text [pk, not null]
+  records {
+    'waiting'
+    'playing'
+    'closed'
+  }
+}
+
+Table game_status {
+  code text [pk, not null]
+  records {
+    'setup'
+    'playing'
+    'finished'
+    'abandoned'
+  }
+}
+
+Table suit {
+  code text [pk, not null]
+  records {
+    'coins'
+    'cups'
+    'swords'
+    'batons'
+  }
+}
+
+Table card_rank {
+  code text [pk, not null]
+  strength integer [not null, unique, check: `strength BETWEEN 1 AND 10`, note: 'Higher wins within the same suit.']
+  points integer [not null, check: `points IN (0, 2, 3, 4, 10, 11)`]
+  records {
+    'two', 1, 0
+    'four', 2, 0
+    'five', 3, 0
+    'six', 4, 0
+    'seven', 5, 0
+    'jack', 6, 2
+    'knight', 7, 3
+    'king', 8, 4
+    'three', 9, 10
+    'ace', 10, 11
+  }
+}
+
+Table card {
+  suit_code text [not null, ref: ?> suit.code]
+  rank_code text [not null, ref: ?> card_rank.code]
+  indexes {
+    (suit_code, rank_code) [pk]
+  }
+  Note: 'The 40 seed cards are the Cartesian product of the four suits and ten ranks, listed below.'
+}
+
+Table room {
+  id text [pk, not null]
+  name text [not null, check: `length(trim(name)) BETWEEN 1 AND 100`]
+  status_code text [not null, default: 'waiting', ref: ?> room_status.code]
+  created_by text [not null, ref: ?> user.id]
+  created_at integer [not null, note: 'Unix timestamp in milliseconds, as in the existing auth schema.']
+}
+
+Table room_member {
+  room_id text [not null, ref: ?> room.id]
+  user_id text [not null, ref: ?> user.id]
+  joined_at integer [not null]
+  indexes {
+    (room_id, user_id) [pk]
+    user_id
+  }
+  Note: 'Current human members; game_player retains historical participants after a member leaves.'
+}
+
+Table game {
+  id text [pk, not null]
+  room_id text [not null, ref: ?> room.id]
+  status_code text [not null, default: 'setup', ref: ?> game_status.code]
+  created_at integer [not null]
+  started_at integer
+  ended_at integer
+  checks {
+    `started_at IS NULL OR started_at >= created_at` [name: 'game_start_after_creation']
+    `ended_at IS NULL OR (ended_at >= created_at AND (started_at IS NULL OR ended_at >= started_at))` [name: 'game_end_after_start']
+    `(status_code = 'setup' AND started_at IS NULL AND ended_at IS NULL) OR (status_code = 'playing' AND started_at IS NOT NULL AND ended_at IS NULL) OR (status_code = 'finished' AND started_at IS NOT NULL AND ended_at IS NOT NULL) OR (status_code = 'abandoned' AND ended_at IS NOT NULL)` [name: 'game_status_times']
+  }
+  indexes {
+    (room_id, created_at)
+  }
+  Note: 'Enforce at most one setup or playing game per room with a SQLite partial unique index.'
+}
+
+Table game_player {
+  game_id text [not null, ref: ?> game.id]
+  seat integer [not null, check: `seat BETWEEN 1 AND 4`, note: 'Seats are consecutive in playing order; seat 1 is dealer and seat 2 leads first.']
+  user_id text [ref: ?>? user.id, note: 'NULL represents a computer opponent.']
+  indexes {
+    (game_id, seat) [pk]
+    (game_id, user_id) [unique]
+  }
+  Note: 'Require 2 to 4 consecutive seats before starting. In a four-player game seats 1 and 3 form one team and seats 2 and 4 the other; otherwise each player plays individually.'
+}
+
+Table game_card {
+  game_id text [not null, ref: ?> game.id]
+  suit_code text [not null]
+  rank_code text [not null]
+  deck_position integer [not null, check: `deck_position BETWEEN 1 AND 40`]
+  dealt_to_seat integer [check: `dealt_to_seat BETWEEN 1 AND 4`, note: 'NULL until dealt or drawn. Immutable after assignment.']
+  indexes {
+    (game_id, suit_code, rank_code) [pk]
+    (game_id, deck_position) [unique]
+    (game_id, suit_code, rank_code, dealt_to_seat) [unique]
+  }
+  Note: 'Deck positions are draw order. The first three cards per player are dealt; the last card is face up, sets trump and is drawn last. Store all 40 cards for 2 or 4 players; for 3 players omit one two and use positions 1-39.'
+}
+
+Table trick {
+  game_id text [not null, ref: ?> game.id]
+  number integer [not null, check: `number BETWEEN 1 AND 20`]
+  indexes {
+    (game_id, number) [pk]
+  }
+  Note: 'A trick winner is derived from its plays, their order, rank strength and the trump suit. The winner draws first and leads the next trick.'
+}
+
+Table play {
+  game_id text [not null]
+  trick_number integer [not null]
+  play_order integer [not null, check: `play_order BETWEEN 1 AND 4`]
+  seat integer [not null, check: `seat BETWEEN 1 AND 4`]
+  suit_code text [not null]
+  rank_code text [not null]
+  indexes {
+    (game_id, trick_number, play_order) [pk]
+    (game_id, trick_number, seat) [unique]
+    (game_id, suit_code, rank_code) [unique]
+  }
+  Note: 'The composite card reference requires the card to have been dealt to the player. Scores sum card_rank.points for cards in tricks won by each player or partnership.'
+}
+
+Ref: game_card.(suit_code, rank_code) ?> card.(suit_code, rank_code)
+Ref: game_card.(game_id, dealt_to_seat) ?>? game_player.(game_id, seat)
+Ref: play.(game_id, trick_number) ?> trick.(game_id, number)
+Ref: play.(game_id, suit_code, rank_code, seat) ?> game_card.(game_id, suit_code, rank_code, dealt_to_seat)
+
+records card(suit_code, rank_code) {
+  'coins', 'two'
+  'coins', 'four'
+  'coins', 'five'
+  'coins', 'six'
+  'coins', 'seven'
+  'coins', 'jack'
+  'coins', 'knight'
+  'coins', 'king'
+  'coins', 'three'
+  'coins', 'ace'
+  'cups', 'two'
+  'cups', 'four'
+  'cups', 'five'
+  'cups', 'six'
+  'cups', 'seven'
+  'cups', 'jack'
+  'cups', 'knight'
+  'cups', 'king'
+  'cups', 'three'
+  'cups', 'ace'
+  'swords', 'two'
+  'swords', 'four'
+  'swords', 'five'
+  'swords', 'six'
+  'swords', 'seven'
+  'swords', 'jack'
+  'swords', 'knight'
+  'swords', 'king'
+  'swords', 'three'
+  'swords', 'ace'
+  'batons', 'two'
+  'batons', 'four'
+  'batons', 'five'
+  'batons', 'six'
+  'batons', 'seven'
+  'batons', 'jack'
+  'batons', 'knight'
+  'batons', 'king'
+  'batons', 'three'
+  'batons', 'ace'
+}
